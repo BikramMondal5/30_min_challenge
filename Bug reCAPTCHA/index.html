@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bug CAPTCHA Sign Up</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #8ecae6;
+            --secondary: #219ebc;
+            --accent: #ffb703;
+            --dark: #023047;
+            --light: #f8f9fa;
+            --error: #e63946;
+        }
+        
+        body {
+            font-family: 'Arial Rounded MT Bold', 'Segoe UI', sans-serif;
+            background-color: var(--light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: var(--dark);
+            padding: 20px 0;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            max-width: 90%;
+        }
+        
+        h1 {
+            text-align: center;
+            color: var(--secondary);
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--dark);
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="tel"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+        }
+        
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus,
+        input[type="tel"]:focus,
+        input[type="date"]:focus,
+        select:focus {
+            border-color: var(--secondary);
+            outline: none;
+        }
+        
+        .captcha-container {
+            background-color: #f0f7ff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 30px;
+            position: relative;
+            display: none; /* Initially hidden */
+        }
+        
+        .captcha-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+        
+        .bug-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .bug {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            transition: transform 0.3s;
+        }
+        
+        .bug-body {
+            width: 60px;
+            height: 80px;
+            background-color: var(--accent);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            overflow: hidden;
+        }
+        
+        .bug-head {
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 30px;
+        }
+        
+        .bug-eye {
+            width: 12px;
+            height: 12px;
+            background-color: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 12px;
+        }
+        
+        .bug-eye.left {
+            left: 10px;
+        }
+        
+        .bug-eye.right {
+            right: 10px;
+        }
+        
+        .bug-pupil {
+            width: 6px;
+            height: 6px;
+            background-color: var(--dark);
+            border-radius: 50%;
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            transition: all 0.3s;
+        }
+        
+        .bug-mouth {
+            width: 20px;
+            height: 10px;
+            position: absolute;
+            bottom: 8px;
+            left: 10px;
+            border-bottom: 3px solid var(--dark);
+            border-radius: 0 0 10px 10px;
+            transition: all 0.3s;
+        }
+        
+        .bug-antenna {
+            width: 3px;
+            height: 15px;
+            background-color: var(--dark);
+            position: absolute;
+            top: -10px;
+            border-radius: 3px;
+        }
+        
+        .bug-antenna.left {
+            left: 12px;
+            transform: rotate(-20deg);
+        }
+        
+        .bug-antenna.right {
+            right: 12px;
+            transform: rotate(20deg);
+        }
+        
+        .bug-leg {
+            width: 20px;
+            height: 3px;
+            background-color: var(--dark);
+            position: absolute;
+            border-radius: 3px;
+        }
+        
+        .bug-leg.front-left {
+            top: 30px;
+            left: -15px;
+            transform: rotate(-30deg);
+        }
+        
+        .bug-leg.front-right {
+            top: 30px;
+            right: -15px;
+            transform: rotate(30deg);
+        }
+        
+        .bug-leg.middle-left {
+            top: 45px;
+            left: -18px;
+        }
+        
+        .bug-leg.middle-right {
+            top: 45px;
+            right: -18px;
+        }
+        
+        .bug-leg.back-left {
+            top: 60px;
+            left: -15px;
+            transform: rotate(30deg);
+        }
+        
+        .bug-leg.back-right {
+            top: 60px;
+            right: -15px;
+            transform: rotate(-30deg);
+        }
+        
+        .bug-message {
+            text-align: center;
+            margin-top: 10px;
+            min-height: 24px;
+            font-size: 14px;
+            color: var(--dark);
+        }
+        
+        #captcha-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px dashed var(--secondary);
+            border-radius: 8px;
+            font-size: 16px;
+            margin-top: 15px;
+            background-color: white;
+        }
+        
+        #captcha-input:focus {
+            border-color: #1E90FF;
+            outline: none;
+        }
+        
+        button {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+            position: relative;
+            display: block;
+            width: 100%;
+        }
+        
+        button:hover {
+            background-color: var(--accent);
+        }
+        
+        button.elusive {
+            transition: transform 0.2s;
+        }
+        
+        .sad-bug .bug-mouth {
+            transform: rotate(180deg);
+            bottom: 12px;
+            border-top: 3px solid var(--dark);
+            border-bottom: none;
+        }
+        
+        .sad-bug .bug-pupil {
+            top: 4px;
+        }
+        
+        .angry-bug .bug-body {
+            background-color: #ff6b6b;
+        }
+        
+        .angry-bug .bug-head {
+            background-color: #ff6b6b;
+        }
+        
+        .angry-bug .bug-mouth {
+            transform: rotate(180deg);
+            bottom: 15px;
+            border-top: 4px solid var(--dark);
+            border-bottom: none;
+            width: 25px;
+            left: 8px;
+        }
+        
+        .angry-bug .bug-pupil {
+            background-color: var(--error);
+            width: 7px;
+            height: 7px;
+        }
+        
+        .angry-bug .bug-antenna {
+            transform: rotate(0deg) !important;
+        }
+        
+        .angry-bug {
+            animation: angry-shake 0.3s infinite;
+        }
+        
+        @keyframes angry-shake {
+            0% { transform: translateX(-2px) rotate(-1deg); }
+            25% { transform: translateX(2px) rotate(1deg); }
+            50% { transform: translateX(-2px) rotate(-1deg); }
+            75% { transform: translateX(2px) rotate(1deg); }
+            100% { transform: translateX(-2px) rotate(-1deg); }
+        }
+        
+        .happy-bug .bug-mouth {
+            height: 12px;
+            bottom: 5px;
+        }
+        
+        .happy-bug .bug-body {
+            animation: happy-wiggle 0.5s infinite alternate;
+        }
+        
+        @keyframes happy-wiggle {
+            0% {
+                transform: rotate(-5deg);
+            }
+            100% {
+                transform: rotate(5deg);
+            }
+        }
+        
+        .form-sections {
+            display: block;
+        }
+        
+        .form-section {
+            margin-bottom: 15px;
+        }
+        
+        .final-submit {
+            display: none;
+            width: auto !important;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+        
+        .success-message {
+            display: none;
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #d4edda;
+            color: #155724;
+            border-radius: 8px;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sign Up</h1>
+        <form id="signup-form">
+            <div class="form-sections" id="form-details">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="full-name">Full Name</label>
+                    <input type="text" id="full-name" name="full-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="dob">Date of Birth</label>
+                    <input type="date" id="dob" name="dob" required>
+                </div>
+                <div class="form-group">
+                    <label for="occupation">Occupation</label>
+                    <input type="text" id="occupation" name="occupation" required>
+                </div>
+                
+                <button type="button" id="next-btn">Continue</button>
+            </div>
+            
+            <div class="captcha-container" id="captcha-section">
+                
+                <h3 class="captcha-title">Prove you're human</h3>
+                <div class="bug-container">
+                    <div class="bug sad-bug" id="bug">
+                        <div class="bug-body"></div>
+                        <div class="bug-head">
+                            <div class="bug-antenna left"></div>
+                            <div class="bug-antenna right"></div>
+                            <div class="bug-eye left">
+                                <div class="bug-pupil"></div>
+                            </div>
+                            <div class="bug-eye right">
+                                <div class="bug-pupil"></div>
+                            </div>
+                            <div class="bug-mouth"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="bug-message" id="bug-message">I'm feeling sad. Can you cheer me up?</div>
+                </div>
+                <input type="text" id="captcha-input" placeholder="Write something to make the me happy" autocomplete="off">
+                
+                <button type="submit" id="submit-btn" class="final-submit elusive">
+                    <i class="fas fa-paper-plane"></i> Sign Up
+                </button>
+            </div>
+            
+            <div class="success-message" id="success-message">
+                <h3>Registration Successful!</h3>
+                <p>Thank you for signing up. Your account has been created.</p>
+            </div>
+        </form>
+    </div>
+
+    <!-- Audio elements for sound effects -->
+    <audio id="happy-sound" preload="auto">
+        <source src="/api/placeholder/1/1" type="audio/mp3">
+        <!-- Fallback using the Web Audio API -->
+    </audio>
+    
+    <audio id="angry-sound" preload="auto">
+        <source src="/api/placeholder/1/1" type="audio/mp3">
+        <!-- Fallback using the Web Audio API -->
+    </audio>
+
+    <script>
+        const formDetails = document.getElementById('form-details');
+        const captchaSection = document.getElementById('captcha-section');
+        const nextBtn = document.getElementById('next-btn');
+        const bug = document.getElementById('bug');
+        const bugMessage = document.getElementById('bug-message');
+        const captchaInput = document.getElementById('captcha-input');
+        const submitBtn = document.getElementById('submit-btn');
+        const form = document.getElementById('signup-form');
+        const successMessage = document.getElementById('success-message');
+        
+        // Audio contexts for sound effects
+        let audioContext = null;
+        let happySound = null;
+        let angrySound = null;
+        
+        // Initialize Web Audio API
+        function initAudio() {
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Create happy sound (cheerful beeps)
+                function createHappySound() {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.type = 'sine';
+                    oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // A4
+                    oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime + 0.1); // C5
+                    oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.2); // E5
+                    oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.3); // G5
+                    
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.start();
+                    oscillator.stop(audioContext.currentTime + 0.4);
+                }
+                
+                // Create angry sound (low growl)
+                function createAngrySound() {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    const distortion = audioContext.createWaveShaper();
+                    
+                    function makeDistortionCurve(amount) {
+                        const k = amount;
+                        const samples = 44100;
+                        const curve = new Float32Array(samples);
+                        for (let i = 0; i < samples; ++i) {
+                            const x = (i * 2) / samples - 1;
+                            curve[i] = (3 + k) * x * 20 * Math.PI * Math.PI / (Math.PI + k * Math.abs(x) * 20);
+                        }
+                        return curve;
+                    }
+                    
+                    distortion.curve = makeDistortionCurve(50);
+                    oscillator.type = 'sawtooth';
+                    oscillator.frequency.setValueAtTime(100, audioContext.currentTime);
+                    oscillator.frequency.exponentialRampToValueAtTime(50, audioContext.currentTime + 0.3);
+                    
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                    
+                    oscillator.connect(distortion);
+                    distortion.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.start();
+                    oscillator.stop(audioContext.currentTime + 0.3);
+                }
+                
+                happySound = createHappySound;
+                angrySound = createAngrySound;
+            } catch (e) {
+                console.error('Web Audio API is not supported in this browser:', e);
+            }
+        }
+        
+        // Initialize audio on user interaction
+        document.addEventListener('click', function() {
+            if (!audioContext) initAudio();
+        }, { once: true });
+        
+        let isBugHappy = false;
+        
+        // Show the bug captcha section when the Next button is clicked
+        nextBtn.addEventListener('click', function() {
+            // Check if all required fields in the first section are filled
+            const inputs = formDetails.querySelectorAll('input[required]');
+            let allFilled = true;
+            
+            inputs.forEach(input => {
+                if (!input.value) {
+                    allFilled = false;
+                    input.style.borderColor = '#ff4444';
+                } else {
+                    input.style.borderColor = '';
+                }
+            });
+            
+            if (allFilled) {
+                formDetails.style.display = 'none';
+                captchaSection.style.display = 'block';
+                submitBtn.style.display = 'block';
+            } else {
+                alert('Please fill in all required fields.');
+            }
+        });
+        
+        captchaInput.addEventListener('input', checkBugHappiness);
+        submitBtn.addEventListener('mouseover', moveButtonIfSad);
+        form.addEventListener('submit', handleSubmit);
+        
+        function checkBugHappiness() {
+            const input = captchaInput.value.trim();
+            
+            // Check if the input matches "you're a bug"
+            if (input.toLowerCase() === "you're a bug" || 
+                input.toLowerCase() === "youre a bug") {
+                makeBugAngry();
+                return;
+            }
+            
+            // Check for the specific phrase that makes the bug happy
+            if (input.toLowerCase() === "you're a bug but i'll treat you as feature" || 
+                input.toLowerCase() === "youre a bug but ill treat you as feature") {
+                makeBugHappy();
+                return;
+            } 
+            
+            // Otherwise, keep the bug sad
+            if (input.length >= 3 && !bug.classList.contains('angry-bug')) {
+                makeBugSad();
+            }
+        }
+        
+        function makeBugHappy() {
+            bug.classList.remove('sad-bug');
+            bug.classList.remove('angry-bug');
+            bug.classList.add('happy-bug');
+            bugMessage.textContent = "I'm happy now. Thank you!";
+            isBugHappy = true;
+            submitBtn.classList.remove('elusive');
+            
+            // Play happy sound
+            if (happySound) {
+                happySound();
+            }
+        }
+        
+        function makeBugSad() {
+            bug.classList.remove('happy-bug');
+            bug.classList.remove('angry-bug');
+            bug.classList.add('sad-bug');
+            bugMessage.textContent = "That doesn't make me happy. Try the magic words!";
+            isBugHappy = false;
+            submitBtn.classList.add('elusive');
+        }
+        
+        function makeBugAngry() {
+            bug.classList.remove('happy-bug');
+            bug.classList.remove('sad-bug');
+            bug.classList.add('angry-bug');
+            bugMessage.textContent = "HOW DARE YOU! I'm NOT just a bug!";
+            isBugHappy = false;
+            submitBtn.classList.add('elusive');
+            
+            // Play angry sound
+            if (angrySound) {
+                angrySound();
+            }
+        }
+        
+        function moveButtonIfSad(event) {
+            if (!isBugHappy) {
+                const button = event.target;
+                const container = button.parentElement;
+                const containerRect = container.getBoundingClientRect();
+                
+                // Calculate new position within the form container
+                let newX = Math.random() * (containerRect.width - button.offsetWidth);
+                let newY = Math.random() * (containerRect.height - button.offsetHeight - 150);
+                
+                // Keep the button within bounds
+                newX = Math.max(0, Math.min(newX, containerRect.width - button.offsetWidth));
+                newY = Math.max(0, Math.min(newY, containerRect.height - button.offsetHeight - 150));
+                
+                // Apply the new position
+                button.style.transform = `translate(${newX - button.offsetLeft}px, ${newY}px)`;
+                
+                // Reset position after a short delay (so it doesn't infinitely move)
+                setTimeout(() => {
+                    if (!isBugHappy) {
+                        button.style.transform = '';
+                    }
+                }, 500);
+            }
+        }
+        
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            if (!isBugHappy) {
+                bugMessage.textContent = "Please make me happy before submitting!";
+            } else {
+                // Show success message
+                captchaSection.style.display = 'none';
+                successMessage.style.display = 'block';
+                
+                // Here you would normally submit the form data to your server
+                console.log("Form submitted successfully!");
+            }
+        }
+    </script>
+</body>
+</html>
