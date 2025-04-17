@@ -1,373 +1,394 @@
 :root {
-            --primary: #8ecae6;
-            --secondary: #219ebc;
-            --accent: #ffb703;
-            --dark: #023047;
-            --light: #f8f9fa;
-            --error: #e63946;
-        }
-        
-        body {
-            font-family: 'Arial Rounded MT Bold', 'Segoe UI', sans-serif;
-            background-color: var(--light);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            color: var(--dark);
-            padding: 20px 0;
-        }
-        
-        .container {
-            background-color: white;
-            border-radius: 16px;
-            padding: 40px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            width: 400px;
-            max-width: 90%;
-        }
-        
-        h1 {
-            text-align: center;
-            color: var(--secondary);
-            margin-bottom: 30px;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: var(--dark);
-        }
-        
-        input[type="text"],
-        input[type="email"],
-        input[type="password"],
-        input[type="tel"],
-        input[type="date"],
-        select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid var(--primary);
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s;
-            box-sizing: border-box;
-        }
-        
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        input[type="password"]:focus,
-        input[type="tel"]:focus,
-        input[type="date"]:focus,
-        select:focus {
-            border-color: var(--secondary);
-            outline: none;
-        }
-        
-        .captcha-container {
-            background-color: #f0f7ff;
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 30px;
-            position: relative;
-            display: none; /* Initially hidden */
-        }
-        
-        .captcha-title {
-            text-align: center;
-            margin-bottom: 20px;
-            color: var(--secondary);
-        }
-        
-        .bug-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .bug {
-            width: 100px;
-            height: 100px;
-            position: relative;
-            transition: transform 0.3s;
-        }
-        
-        .bug-body {
-            width: 60px;
-            height: 80px;
-            background-color: var(--accent);
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            overflow: hidden;
-        }
-        
-        .bug-head {
-            width: 40px;
-            height: 40px;
-            background-color: var(--accent);
-            border-radius: 50%;
-            position: absolute;
-            top: 0;
-            left: 30px;
-        }
-        
-        .bug-eye {
-            width: 12px;
-            height: 12px;
-            background-color: white;
-            border-radius: 50%;
-            position: absolute;
-            top: 12px;
-        }
-        
-        .bug-eye.left {
-            left: 10px;
-        }
-        
-        .bug-eye.right {
-            right: 10px;
-        }
-        
-        .bug-pupil {
-            width: 6px;
-            height: 6px;
-            background-color: var(--dark);
-            border-radius: 50%;
-            position: absolute;
-            top: 3px;
-            left: 3px;
-            transition: all 0.3s;
-        }
-        
-        .bug-mouth {
-            width: 20px;
-            height: 10px;
-            position: absolute;
-            bottom: 8px;
-            left: 10px;
-            border-bottom: 3px solid var(--dark);
-            border-radius: 0 0 10px 10px;
-            transition: all 0.3s;
-        }
-        
-        .bug-antenna {
-            width: 3px;
-            height: 15px;
-            background-color: var(--dark);
-            position: absolute;
-            top: -10px;
-            border-radius: 3px;
-        }
-        
-        .bug-antenna.left {
-            left: 12px;
-            transform: rotate(-20deg);
-        }
-        
-        .bug-antenna.right {
-            right: 12px;
-            transform: rotate(20deg);
-        }
-        
-        .bug-leg {
-            width: 20px;
-            height: 3px;
-            background-color: var(--dark);
-            position: absolute;
-            border-radius: 3px;
-        }
-        
-        .bug-leg.front-left {
-            top: 30px;
-            left: -15px;
-            transform: rotate(-30deg);
-        }
-        
-        .bug-leg.front-right {
-            top: 30px;
-            right: -15px;
-            transform: rotate(30deg);
-        }
-        
-        .bug-leg.middle-left {
-            top: 45px;
-            left: -18px;
-        }
-        
-        .bug-leg.middle-right {
-            top: 45px;
-            right: -18px;
-        }
-        
-        .bug-leg.back-left {
-            top: 60px;
-            left: -15px;
-            transform: rotate(30deg);
-        }
-        
-        .bug-leg.back-right {
-            top: 60px;
-            right: -15px;
-            transform: rotate(-30deg);
-        }
-        
-        .bug-message {
-            text-align: center;
-            margin-top: 10px;
-            min-height: 24px;
-            font-size: 14px;
-            color: var(--dark);
-        }
-        
-        #captcha-input {
-            width: 100%;
-            padding: 12px;
-            border: 2px dashed var(--secondary);
-            border-radius: 8px;
-            font-size: 16px;
-            margin-top: 15px;
-            background-color: white;
-        }
-        
-        #captcha-input:focus {
-            border-color: #1E90FF;
-            outline: none;
-        }
-        
-        button {
-            background-color: var(--secondary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 12px 25px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 20px;
-            position: relative;
-            display: block;
-            width: 100%;
-        }
-        
-        button:hover {
-            background-color: var(--accent);
-        }
-        
-        button.elusive {
-            transition: transform 0.2s;
-        }
-        
-        .sad-bug .bug-mouth {
-            transform: rotate(180deg);
-            bottom: 12px;
-            border-top: 3px solid var(--dark);
-            border-bottom: none;
-        }
-        
-        .sad-bug .bug-pupil {
-            top: 4px;
-        }
-        
-        .angry-bug .bug-body {
-            background-color: #ff6b6b;
-        }
-        
-        .angry-bug .bug-head {
-            background-color: #ff6b6b;
-        }
-        
-        .angry-bug .bug-mouth {
-            transform: rotate(180deg);
-            bottom: 15px;
-            border-top: 4px solid var(--dark);
-            border-bottom: none;
-            width: 25px;
-            left: 8px;
-        }
-        
-        .angry-bug .bug-pupil {
-            background-color: var(--error);
-            width: 7px;
-            height: 7px;
-        }
-        
-        .angry-bug .bug-antenna {
-            transform: rotate(0deg) !important;
-        }
-        
-        .angry-bug {
-            animation: angry-shake 0.3s infinite;
-        }
-        
-        @keyframes angry-shake {
-            0% { transform: translateX(-2px) rotate(-1deg); }
-            25% { transform: translateX(2px) rotate(1deg); }
-            50% { transform: translateX(-2px) rotate(-1deg); }
-            75% { transform: translateX(2px) rotate(1deg); }
-            100% { transform: translateX(-2px) rotate(-1deg); }
-        }
-        
-        .happy-bug .bug-mouth {
-            height: 12px;
-            bottom: 5px;
-        }
-        
-        .happy-bug .bug-body {
-            animation: happy-wiggle 0.5s infinite alternate;
-        }
-        
-        @keyframes happy-wiggle {
-            0% {
-                transform: rotate(-5deg);
-            }
-            100% {
-                transform: rotate(5deg);
-            }
-        }
-        
-        .form-sections {
-            display: block;
-        }
-        
-        .form-section {
-            margin-bottom: 15px;
-        }
-        
-        .final-submit {
-            display: none;
-            width: auto !important;
-            margin-left: auto;
-            margin-right: auto;
-            padding: 10px 20px;
-            font-size: 14px;
-        }
-        
-        .success-message {
-            display: none;
-            text-align: center;
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #d4edda;
-            color: #155724;
-            border-radius: 8px;
-            animation: fadeIn 0.5s;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .hidden {
-            display: none;
-        }
+    --primary: #8ecae6;
+    --secondary: #219ebc;
+    --accent: #ffb703;
+    --dark: #023047;
+    --light: #f8f9fa;
+    --error: #e63946;
+}
+
+body {
+    font-family: 'Arial Rounded MT Bold', 'Segoe UI', sans-serif;
+    background-color: var(--light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    color: var(--dark);
+    padding: 20px 0;
+}
+
+.container {
+    background-color: white;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    max-width: 90%;
+}
+
+h1 {
+    text-align: center;
+    color: var(--secondary);
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--dark);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="date"],
+select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="tel"]:focus,
+input[type="date"]:focus,
+select:focus {
+    border-color: var(--secondary);
+    outline: none;
+}
+
+.captcha-container {
+    background-color: #f0f7ff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 30px;
+    position: relative;
+    display: none;
+    /* Initially hidden */
+}
+
+.captcha-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--secondary);
+}
+
+.bug-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.bug {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    transition: transform 0.3s;
+}
+
+.bug-body {
+    width: 60px;
+    height: 80px;
+    background-color: var(--accent);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    overflow: hidden;
+}
+
+.bug-head {
+    width: 40px;
+    height: 40px;
+    background-color: var(--accent);
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 30px;
+}
+
+.bug-eye {
+    width: 12px;
+    height: 12px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 12px;
+}
+
+.bug-eye.left {
+    left: 10px;
+}
+
+.bug-eye.right {
+    right: 10px;
+}
+
+.bug-pupil {
+    width: 6px;
+    height: 6px;
+    background-color: var(--dark);
+    border-radius: 50%;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    transition: all 0.3s;
+}
+
+.bug-mouth {
+    width: 20px;
+    height: 10px;
+    position: absolute;
+    bottom: 8px;
+    left: 10px;
+    border-bottom: 3px solid var(--dark);
+    border-radius: 0 0 10px 10px;
+    transition: all 0.3s;
+}
+
+.bug-antenna {
+    width: 3px;
+    height: 15px;
+    background-color: var(--dark);
+    position: absolute;
+    top: -10px;
+    border-radius: 3px;
+}
+
+.bug-antenna.left {
+    left: 12px;
+    transform: rotate(-20deg);
+}
+
+.bug-antenna.right {
+    right: 12px;
+    transform: rotate(20deg);
+}
+
+.bug-leg {
+    width: 20px;
+    height: 3px;
+    background-color: var(--dark);
+    position: absolute;
+    border-radius: 3px;
+}
+
+.bug-leg.front-left {
+    top: 30px;
+    left: -15px;
+    transform: rotate(-30deg);
+}
+
+.bug-leg.front-right {
+    top: 30px;
+    right: -15px;
+    transform: rotate(30deg);
+}
+
+.bug-leg.middle-left {
+    top: 45px;
+    left: -18px;
+}
+
+.bug-leg.middle-right {
+    top: 45px;
+    right: -18px;
+}
+
+.bug-leg.back-left {
+    top: 60px;
+    left: -15px;
+    transform: rotate(30deg);
+}
+
+.bug-leg.back-right {
+    top: 60px;
+    right: -15px;
+    transform: rotate(-30deg);
+}
+
+.bug-message {
+    text-align: center;
+    margin-top: 10px;
+    min-height: 24px;
+    font-size: 14px;
+    color: var(--dark);
+}
+
+#captcha-input {
+    width: 100%;
+    padding: 12px;
+    border: 2px dashed var(--secondary);
+    border-radius: 8px;
+    font-size: 16px;
+    margin-top: 15px;
+    background-color: white;
+}
+
+#captcha-input:focus {
+    border-color: #1E90FF;
+    outline: none;
+}
+
+button {
+    background-color: var(--secondary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 25px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 20px;
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+button:hover {
+    background-color: var(--accent);
+}
+
+button.elusive {
+    transition: transform 0.2s;
+}
+
+.sad-bug .bug-mouth {
+    transform: rotate(180deg);
+    bottom: 12px;
+    border-top: 3px solid var(--dark);
+    border-bottom: none;
+}
+
+.sad-bug .bug-pupil {
+    top: 4px;
+}
+
+.angry-bug .bug-body {
+    background-color: #ff6b6b;
+}
+
+.angry-bug .bug-head {
+    background-color: #ff6b6b;
+}
+
+.angry-bug .bug-mouth {
+    transform: rotate(180deg);
+    bottom: 15px;
+    border-top: 4px solid var(--dark);
+    border-bottom: none;
+    width: 25px;
+    left: 8px;
+}
+
+.angry-bug .bug-pupil {
+    background-color: var(--error);
+    width: 7px;
+    height: 7px;
+}
+
+.angry-bug .bug-antenna {
+    transform: rotate(0deg) !important;
+}
+
+.angry-bug {
+    animation: angry-shake 0.3s infinite;
+}
+
+@keyframes angry-shake {
+    0% {
+        transform: translateX(-2px) rotate(-1deg);
+    }
+
+    25% {
+        transform: translateX(2px) rotate(1deg);
+    }
+
+    50% {
+        transform: translateX(-2px) rotate(-1deg);
+    }
+
+    75% {
+        transform: translateX(2px) rotate(1deg);
+    }
+
+    100% {
+        transform: translateX(-2px) rotate(-1deg);
+    }
+}
+
+.happy-bug .bug-mouth {
+    height: 12px;
+    bottom: 5px;
+}
+
+.happy-bug .bug-body {
+    animation: happy-wiggle 0.5s infinite alternate;
+}
+
+@keyframes happy-wiggle {
+    0% {
+        transform: rotate(-5deg);
+    }
+
+    100% {
+        transform: rotate(5deg);
+    }
+}
+
+.form-sections {
+    display: block;
+}
+
+.form-section {
+    margin-bottom: 15px;
+}
+
+.final-submit {
+    display: none;
+    width: auto !important;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px 20px;
+    font-size: 14px;
+}
+
+.success-message {
+    display: none;
+    text-align: center;
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #d4edda;
+    color: #155724;
+    border-radius: 8px;
+    animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.hidden {
+    display: none;
+}

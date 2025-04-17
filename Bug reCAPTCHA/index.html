@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <div class="container">
         <h1>Sign Up</h1>
@@ -40,12 +42,12 @@
                     <label for="occupation">Occupation</label>
                     <input type="text" id="occupation" name="occupation" required>
                 </div>
-                
+
                 <button type="button" id="next-btn">Continue</button>
             </div>
-            
+
             <div class="captcha-container" id="captcha-section">
-                
+
                 <h3 class="captcha-title">Prove you're human</h3>
                 <div class="bug-container">
                     <div class="bug sad-bug" id="bug">
@@ -61,18 +63,19 @@
                             </div>
                             <div class="bug-mouth"></div>
                         </div>
-                        
-                        
+
+
                     </div>
                     <div class="bug-message" id="bug-message">I'm feeling sad. Can you cheer me up?</div>
                 </div>
-                <input type="text" id="captcha-input" placeholder="Write something to make the me happy" autocomplete="off">
-                
+                <input type="text" id="captcha-input" placeholder="Write something to make the me happy"
+                    autocomplete="off">
+
                 <button type="submit" id="submit-btn" class="final-submit elusive">
                     <i class="fas fa-paper-plane"></i> Sign Up
                 </button>
             </div>
-            
+
             <div class="success-message" id="success-message">
                 <h3>Registration Successful!</h3>
                 <p>Thank you for signing up. Your account has been created.</p>
@@ -85,10 +88,11 @@
         <source src="/api/placeholder/1/1" type="audio/mp3">
         <!-- Fallback using the Web Audio API -->
     </audio>
-    
+
     <audio id="angry-sound" preload="auto">
         <source src="/api/placeholder/1/1" type="audio/mp3">
         <!-- Fallback using the Web Audio API -->
     </audio>
+    <script src="script.js"></script>
 </body>
 </html>
