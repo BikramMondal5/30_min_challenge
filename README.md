@@ -19,6 +19,8 @@ A creative sign-up form with a character-driven CAPTCHA system where users must 
       ```bash
       cd Bug-reCAPTCHA
       ```
+
+  3. Run the `index.html` file to preview the web in browser.
    
 ## 🤝 Contribution
    
